@@ -18,10 +18,10 @@ jobs:
           native-image-job-reports: 'true'
 
       - name: Example step using Gradle plugin
-        run: ./gradlew nativeCompile
+        run: ./mvnw native:compile -Pnative
 
       - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
           name: spring-graalvm-app-${{ matrix.os }}
-          path: ./build/native/nativeCompile/spring-graalvm-app
+          path: ./target/myLearningProject
