@@ -45,4 +45,4 @@ jobs:
       - name: Build the docker image
         run: |
           docker build . --tag ghcr.io/mos-wannit/my-learning:latest
-          docker push ghcr.io/mos-wannit/my-learning:latest
+          docker push ghcr.io/mos-wannit/myLearning:latest
