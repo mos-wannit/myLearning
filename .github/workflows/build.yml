@@ -32,7 +32,7 @@ on: [push]
 jobs:
   build-image:
     name: Build image
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses:
