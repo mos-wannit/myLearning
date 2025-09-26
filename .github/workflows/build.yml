@@ -1,27 +1,48 @@
-name: GraalVM Native Image builds
-on: [push, pull_request]
+#name: GraalVM Native Image builds
+#on: [push, pull_request]
+#jobs:
+#  build:
+#    name: WebApp on ${{ matrix.os }}
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ ubuntu-latest]
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - uses: graalvm/setup-graalvm@v1
+#        with:
+#          java-version: '24'
+#          distribution: 'graalvm'
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          native-image-job-reports: 'true'
+#
+#      - name: Example step using Gradle plugin
+#        run: ./mvnw native:compile -Pnative
+#
+#      - name: Upload binary
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: spring-graalvm-app-${{ matrix.os }}
+#          path: ./target/my-learning-project
+
+
+name: build image
+on: [push]
 jobs:
-  build:
-    name: WebApp on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest]
+  build-image:
+    name: Build image
+    runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: graalvm/setup-graalvm@v1
+      - name: Checkout
+        uses:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
         with:
-          java-version: '24'
-          distribution: 'graalvm'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          native-image-job-reports: 'true'
-
-      - name: Example step using Gradle plugin
-        run: ./mvnw native:compile -Pnative
-
-      - name: Upload binary
-        uses: actions/upload-artifact@v4
-        with:
-          name: spring-graalvm-app-${{ matrix.os }}
-          path: ./target/my-learning-project
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build the docker image
+        run: |
+          docker build . --tag ghcr.io/mos-wannit/myLearning:latest
+          docker push ghcr.io/mos-wannit/myLearning:latest
