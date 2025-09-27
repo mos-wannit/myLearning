@@ -1,32 +1,3 @@
-#name: GraalVM Native Image builds
-#on: [push, pull_request]
-#jobs:
-#  build:
-#    name: WebApp on ${{ matrix.os }}
-#    runs-on: ${{ matrix.os }}
-#    strategy:
-#      matrix:
-#        os: [ ubuntu-latest]
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - uses: graalvm/setup-graalvm@v1
-#        with:
-#          java-version: '24'
-#          distribution: 'graalvm'
-#          github-token: ${{ secrets.GITHUB_TOKEN }}
-#          native-image-job-reports: 'true'
-#
-#      - name: Example step using Gradle plugin
-#        run: ./mvnw native:compile -Pnative
-#
-#      - name: Upload binary
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: spring-graalvm-app-${{ matrix.os }}
-#          path: ./target/my-learning-project
-
-
 name: build image
 on: [push]
 jobs:
@@ -45,4 +16,5 @@ jobs:
       - name: Build the docker image
         run: |
           docker build . --tag ghcr.io/mos-wannit/my-learning:latest
-          docker push ghcr.io/mos-wannit/my-learning:latest
+      - name: Push the docker image
+        run: docker push ghcr.io/mos-wannit/my-learning:latest
